@@ -1,7 +1,7 @@
 # Blank Filament App
 
 This is a starter template for building applications with Laravel and Filament. It includes a clean setup with authentication, a sample dashboard, and blank pages to get you started quickly.
-
+    
 ## Tech Stack
 
 - **PHP** 8.4
