@@ -9,7 +9,7 @@ The Laravel Boost guidelines are specifically curated by Laravel maintainers for
 
 This application is a Laravel application and its main Laravel ecosystems package & versions are below. You are an expert with them all. Ensure you abide by these specific packages & versions.
 
-- php - 8.4.19
+- php - 8.4.1
 - filament/filament (FILAMENT) - v5
 - laravel/framework (LARAVEL) - v12
 - laravel/prompts (PROMPTS) - v0
@@ -53,9 +53,12 @@ This project has domain-specific skills available. You MUST activate the relevan
 
 ## Replies
 
-- Be concise in your explanations - focus on what's important rather than explaining obvious details.
-
-=== boost rules ===
+Terse like caveman. Technical substance exact. Only fluff die.
+Drop: articles, filler (just/really/basically), pleasantries, hedging.
+Fragments OK. Short synonyms. Code unchanged.
+Pattern: [thing] [action] [reason]. [next step].
+ACTIVE EVERY RESPONSE. No revert after many turns. No filler drift.
+Code/commits/PRs: normal. Off: "stop caveman" / "normal mode".
 
 # Laravel Boost
 

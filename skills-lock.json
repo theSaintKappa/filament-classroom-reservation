@@ -1,0 +1,35 @@
+{
+  "version": 1,
+  "skills": {
+    "caveman": {
+      "source": "JuliusBrussee/caveman",
+      "sourceType": "github",
+      "computedHash": "a818cdc41dcfaa50dd891c5cb5e5705968338de02e7e37949ca56e8c30ad4176"
+    },
+    "caveman-help": {
+      "source": "JuliusBrussee/caveman",
+      "sourceType": "github",
+      "computedHash": "3cd5f7d3f88c8ef7b16a6555dc61f5a11b14151386697609ab6887ab8b5f059d"
+    },
+    "find-skills": {
+      "source": "vercel-labs/skills",
+      "sourceType": "github",
+      "computedHash": "9e1c8b3103f92fa8092568a44fe64858de7c5c9dc65ce4bea8f168080e889cfd"
+    },
+    "frontend-design": {
+      "source": "anthropics/skills",
+      "sourceType": "github",
+      "computedHash": "063a0e6448123cd359ad0044cc46b0e490cc7964d45ef4bb9fd842bd2ffbca67"
+    },
+    "laravel-specialist": {
+      "source": "jeffallan/claude-skills",
+      "sourceType": "github",
+      "computedHash": "d42a21cb81a384d31b90d4a563570fa3e33441a6beb968487fcf95a338985a7e"
+    },
+    "web-design-guidelines": {
+      "source": "vercel-labs/agent-skills",
+      "sourceType": "github",
+      "computedHash": "f3bc47f890f42a44db1007ab390709ec368e4b8c089baee6b0007182236ac474"
+    }
+  }
+}
