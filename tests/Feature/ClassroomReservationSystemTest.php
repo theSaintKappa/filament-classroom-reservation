@@ -5,6 +5,7 @@ use App\Models\Reservation;
 use App\Models\Room;
 use App\Models\User;
 use Carbon\CarbonImmutable;
+use Database\Seeders\DemoSchoolDataSeeder;
 
 it('detects room reservation conflict for overlapping range', function () {
     $room = Room::factory()->create();
@@ -70,4 +71,35 @@ it('exports weekly schedule PDF for authenticated user', function () {
     $response->assertSuccessful();
     $response->assertHeader('content-disposition');
     expect($response->headers->get('content-disposition'))->toContain('weekly-schedule-2026-04-13.pdf');
+});
+
+it('seeds reservations across the current week and the next two weeks', function () {
+    CarbonImmutable::setTestNow(CarbonImmutable::parse('2026-04-13 12:00:00'));
+
+    try {
+        $this->seed(DemoSchoolDataSeeder::class);
+
+        $weekStart = CarbonImmutable::now()->startOfWeek();
+        $weekEnd = $weekStart->addWeeks(2)->endOfWeek();
+
+        $earliestReservation = Reservation::query()->oldest('starts_at')->firstOrFail();
+        $latestReservation = Reservation::query()->latest('ends_at')->firstOrFail();
+
+        expect($earliestReservation->starts_at->greaterThanOrEqualTo($weekStart))->toBeTrue();
+        expect($latestReservation->ends_at->lessThanOrEqualTo($weekEnd))->toBeTrue();
+
+        expect(
+            Reservation::query()
+                ->whereBetween('starts_at', [$weekStart, $weekStart->endOfWeek()])
+                ->count(),
+        )->toBeGreaterThan(0);
+
+        expect(
+            Reservation::query()
+                ->whereBetween('starts_at', [$weekStart->addWeeks(2), $weekStart->addWeeks(2)->endOfWeek()])
+                ->count(),
+        )->toBeGreaterThan(0);
+    } finally {
+        CarbonImmutable::setTestNow();
+    }
 });

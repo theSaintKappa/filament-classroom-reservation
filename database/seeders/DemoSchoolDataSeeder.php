@@ -56,7 +56,7 @@ class DemoSchoolDataSeeder extends Seeder
             ],
         ];
 
-        $weekStart = CarbonImmutable::now()->startOfWeek()->addWeek();
+        $weekStart = CarbonImmutable::now()->startOfWeek();
 
         foreach ($buildingRooms as $buildingData) {
             $building = Building::query()->updateOrCreate(
@@ -80,34 +80,37 @@ class DemoSchoolDataSeeder extends Seeder
 
                 $teacher = $teachers[$index % $teachers->count()];
 
-                $morningStart = $weekStart->addDays($index % 5)->setHour(8)->setMinute(0);
-                $middayStart = $weekStart->addDays(($index + 1) % 5)->setHour(11)->setMinute(0);
+                for ($weekOffset = 0; $weekOffset <= 2; $weekOffset++) {
+                    $week = $weekStart->addWeeks($weekOffset);
+                    $morningStart = $week->addDays($index % 5)->setHour(8)->setMinute(0);
+                    $middayStart = $week->addDays(($index + 1) % 5)->setHour(11)->setMinute(0);
 
-                Reservation::query()->updateOrCreate(
-                    [
-                        'room_id' => $room->id,
-                        'title' => $room->name.' Morning Session',
-                        'starts_at' => $morningStart,
-                        'ends_at' => $morningStart->addHour(),
-                    ],
-                    [
-                        'teacher_id' => $teacher->id,
-                        'notes' => 'Seeded sample reservation.',
-                    ],
-                );
+                    Reservation::query()->updateOrCreate(
+                        [
+                            'room_id' => $room->id,
+                            'title' => $room->name.' Morning Session',
+                            'starts_at' => $morningStart,
+                            'ends_at' => $morningStart->addHour(),
+                        ],
+                        [
+                            'teacher_id' => $teacher->id,
+                            'notes' => 'Seeded sample reservation.',
+                        ],
+                    );
 
-                Reservation::query()->updateOrCreate(
-                    [
-                        'room_id' => $room->id,
-                        'title' => $room->name.' Midday Session',
-                        'starts_at' => $middayStart,
-                        'ends_at' => $middayStart->addHours(2),
-                    ],
-                    [
-                        'teacher_id' => $teacher->id,
-                        'notes' => 'Seeded sample reservation.',
-                    ],
-                );
+                    Reservation::query()->updateOrCreate(
+                        [
+                            'room_id' => $room->id,
+                            'title' => $room->name.' Midday Session',
+                            'starts_at' => $middayStart,
+                            'ends_at' => $middayStart->addHours(2),
+                        ],
+                        [
+                            'teacher_id' => $teacher->id,
+                            'notes' => 'Seeded sample reservation.',
+                        ],
+                    );
+                }
             }
         }
     }
