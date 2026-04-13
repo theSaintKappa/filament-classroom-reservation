@@ -52,6 +52,11 @@ class Reservation extends Model
             ->where('ends_at', '>', $startsAt);
     }
 
+    public static function conflictMessage(): string
+    {
+        return 'This room is already reserved during the selected time range.';
+    }
+
     public static function roomHasConflict(
         int $roomId,
         string $startsAt,

@@ -27,7 +27,7 @@ class CreateReservation extends CreateRecord
             (string) $data['ends_at'],
         )) {
             throw ValidationException::withMessages([
-                'starts_at' => 'This room is already reserved during the selected time range.',
+                'starts_at' => Reservation::conflictMessage(),
             ]);
         }
 

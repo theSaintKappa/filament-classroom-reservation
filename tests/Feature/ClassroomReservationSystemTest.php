@@ -1,11 +1,13 @@
 <?php
 
+use App\Filament\Resources\Reservations\Pages\CreateReservation;
 use App\Filament\Resources\Reservations\ReservationResource;
 use App\Models\Reservation;
 use App\Models\Room;
 use App\Models\User;
 use Carbon\CarbonImmutable;
 use Database\Seeders\DemoSchoolDataSeeder;
+use Livewire\Livewire;
 
 it('detects room reservation conflict for overlapping range', function () {
     $room = Room::factory()->create();
@@ -43,6 +45,33 @@ it('allows adjacent reservations with no overlap', function () {
     );
 
     expect($hasConflict)->toBeFalse();
+});
+
+it('shows a form error when the selected time overlaps an existing reservation', function () {
+    $teacher = User::factory()->teacher()->create();
+    $room = Room::factory()->create();
+
+    Reservation::factory()
+        ->for($room)
+        ->for($teacher, 'teacher')
+        ->create([
+            'starts_at' => CarbonImmutable::parse('2026-04-20 09:00:00'),
+            'ends_at' => CarbonImmutable::parse('2026-04-20 10:00:00'),
+        ]);
+
+    $this->actingAs($teacher);
+
+    Livewire::test(CreateReservation::class)
+        ->fillForm([
+            'room_id' => $room->id,
+            'title' => 'Morning lesson',
+            'starts_at' => '2026-04-20 09:30:00',
+            'ends_at' => '2026-04-20 10:30:00',
+        ])
+        ->call('create')
+        ->assertHasFormErrors(['starts_at']);
+
+    expect(Reservation::query()->count())->toBe(1);
 });
 
 it('scopes reservations to current teacher in reservation resource query', function () {

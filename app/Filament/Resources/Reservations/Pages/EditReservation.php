@@ -30,7 +30,7 @@ class EditReservation extends EditRecord
             (int) $record->getKey(),
         )) {
             throw ValidationException::withMessages([
-                'starts_at' => 'This room is already reserved during the selected time range.',
+                'starts_at' => Reservation::conflictMessage(),
             ]);
         }
 
